@@ -1,0 +1,26 @@
+#!/bin/bash
+# Standard output and error:
+#SBATCH -o ./examplejob.out
+#SBATCH -e ./examplejob.err
+#SBATCH -D ./
+#SBATCH --nodes=4
+#SBATCH --ntasks-per-node=32
+#SBATCH --cpus-per-task=1
+## Request 500 GB of main Memory per node in Units of MB:
+##SBATCH --mem=512000
+#SBATCH -J 7.34_200
+#SBATCH --mail-type=none
+#SBATCH --partition=mpsd
+#SBATCH --time=72:00:00
+#SBATCH --dependency=afterok:9982008
+
+module load impi
+module load mkl
+
+export LD_LIBRARY_PATH="$MKL_HOME/lib/intel64"
+export OMP_NUM_THREADS=1
+export OMP_PLACES=cores
+
+mpicxx -o a_200.out -O2 -std=c++11  TBG_PROPAGATION.cc -L$MKL_HOME/lib/intel64 -lmkl_intel_lp64 -lmkl_core -lmkl_sequential -lm -fopenmp
+srun ./a_200.out >log
+
