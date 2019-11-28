@@ -84,8 +84,8 @@
 #define THIRD 1.0                                                       // 3rd order (1.0 on / 0.0 off)
 
 // dissipation parameters
-#define J0	      0.04136 											    // Coupling to occupations -> time-scale ~ 100 fs
-#define J1        0.20678                                               // Coupling to coherences -> time-scale ~ 20 fs
+#define J0	  0.00658 											    // Coupling to occupations -> time-scale ~ 100 fs
+#define J1        0.0329                                              // Coupling to coherences -> time-scale ~ 20 fs
 #define BETAB     100.0                                                 // Bath temperature
 
 #define PI 3.14159265359
