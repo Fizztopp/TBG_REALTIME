@@ -8,29 +8,35 @@ import matplotlib.gridspec as gridspec
 from mpl_toolkits.mplot3d import axes3d, Axes3D
 
 mpl.rcParams['font.family'] = 'sans-serif'
-mpl.rcParams['lines.linewidth'] = 3
-mpl.rcParams['lines.markersize'] = 15
-mpl.rcParams['font.size'] = 14  # <-- change fonsize globally
-mpl.rcParams['legend.fontsize'] = 20
-mpl.rcParams['axes.titlesize'] = 20
-mpl.rcParams['axes.labelsize'] = 20
+mpl.rcParams['lines.linewidth'] = 2
+mpl.rcParams['lines.markersize'] = 5
+mpl.rcParams['lines.markeredgewidth'] = 1
+mpl.rcParams['font.size'] = 16 # <-- change fonsize globally
+mpl.rcParams['legend.fontsize'] = 18
+mpl.rcParams['axes.titlesize'] = 16
+mpl.rcParams['axes.labelsize'] = 16
 mpl.rcParams['xtick.major.size'] = 10
 mpl.rcParams['ytick.major.size'] = 10
 mpl.rcParams['xtick.major.width'] = 1
 mpl.rcParams['ytick.major.width'] = 1
 mpl.rcParams['xtick.direction'] = 'inout'
 mpl.rcParams['ytick.direction'] = 'inout'
-mpl.rcParams['figure.titlesize'] = 28
-mpl.rcParams['figure.figsize'] = [10.,10]
+mpl.rcParams['figure.titlesize'] = 24
+mpl.rcParams['figure.figsize'] = [6.,5]
+mpl.rcParams['text.usetex'] = True
 
 
 #### CONSTRUCT SUPER CELL ##############################################################################################################
-Nmesh = 1024                                                           # has to be odd!    
+Nmesh = 512                                                                  # has to be odd!    
+#num_GK = 32                                                                    # number of k-point per hgh symmetry line
+#num_KM = 31   
+
 num_GK = 43                                                                    # number of k-point per hgh symmetry line
 num_KM = 42        
+      
 lconst = 2.445                                                                 # lattice constant
 dis = 3.364                                                                    # interlayer distance
-ii = 4                                                                       # cell index
+ii = 4                                                                         # cell index
 nn = 4*(ii**2+(ii+1)*ii+(ii+1)**2)                                             # number of atoms
 print("Number of sites: "+str(nn))
 
@@ -225,19 +231,18 @@ def k_path():
     Calculates high symmetry path points and saves as k_path.npz, #of points =  6*PC.k_num+1     
     '''
 # =============================================================================
-#     K_PATH = np.zeros(3)+(K-GAMMA)*0.95
+#     K_PATH = np.zeros(3)+(K-GAMMA)*0.75
 #     for GK in range(num_GK):
-#         K_PATH = np.append(K_PATH, K_PATH[-3:]+1./num_GK*(K-GAMMA)*0.05)
+#         K_PATH = np.append(K_PATH, K_PATH[-3:]+1./num_GK*(K-GAMMA)*0.25)
 #     for KKs in range(num_KM):
-#         K_PATH = np.append(K_PATH, K_PATH[-3:]+1./num_KM*(MM-K)*2.0*0.05)    
-#     K_PATH = np.append(K_PATH, K_PATH[-3:]+(MM-K)*2.0*0.90) 
+#         K_PATH = np.append(K_PATH, K_PATH[-3:]+1./num_KM*(MM-K)*2.0*0.25)    
+#     K_PATH = np.append(K_PATH, K_PATH[-3:]+(MM-K)*2.0*0.50) 
 #     for KKs in range(num_KM):
-#         K_PATH = np.append(K_PATH, K_PATH[-3:]+1./num_KM*(MM-K)*2.0*0.05) 
+#         K_PATH = np.append(K_PATH, K_PATH[-3:]+1./num_KM*(MM-K)*2.0*0.25) 
 #     for GK in range(num_GK):
-#         K_PATH = np.append(K_PATH, K_PATH[-3:]+1./num_GK*(GAMMA-Kp)*0.05)
-#         
+#         K_PATH = np.append(K_PATH, K_PATH[-3:]+1./num_GK*(GAMMA-Kp)*0.25)
 # =============================================================================
-
+        
     K_PATH = np.array([0.,0.,0.])
     for GK in range(num_GK):
         K_PATH = np.append(K_PATH, K_PATH[-3:]+1./num_GK*(K-GAMMA))
@@ -358,9 +363,9 @@ def k_PATCH():
     MAT_PATCH = np.array([])
     MAT_irr_BZ, MAT_BZ_full = k_irr_BZ()
     for k in range(np.size(MAT_BZ_full[:,0])):
-        if(np.linalg.norm(MAT_BZ_full[k,:]-(Kp-GAMMA)) < np.linalg.norm(K-Kp)/5):
+        if(np.linalg.norm(MAT_BZ_full[k,:]-(Kp-GAMMA)) < np.linalg.norm((K-Kp)/4)):
             MAT_PATCH=np.append(MAT_PATCH, MAT_BZ_full[k,:],0)
-            #MAT_PATCH=np.append(MAT_PATCH, -MAT_BZ_full[k,:],0)
+            MAT_PATCH=np.append(MAT_PATCH, -MAT_BZ_full[k,:],0)
     MAT_PATCH = np.reshape(MAT_PATCH,(int(np.size(MAT_PATCH)/3),3))   
     print("Number of kpoints: %d (PATCH)" % np.size(MAT_PATCH[:,0]))      
     file = open('k_weights_PATCH.dat','w')
@@ -388,7 +393,7 @@ ax.scatter(K_PATH[:,0], K_PATH[:,1], K_PATH[:,2], c="b", marker="x", label="symm
 #ax.scatter(VEC_BZ1[0], VEC_BZ1[1], c="r", marker="o", label="basis 1")                          # basis vectors 1
 #ax.scatter(VEC_BZ2[0], VEC_BZ2[1], c="r", marker="o", label="basis 2")                          # basis vectors 1
 #ax.scatter(-0.5*VEC_BZ1[0], -0.5*VEC_BZ1[1], c="g", marker="o")                # check!             
-#ax.scatter(MAT_irr_BZ[:,0], MAT_irr_BZ[:,1], MAT_irr_BZ[:,2], c="r", marker="x", label="irr. BZ")
+ax.scatter(MAT_irr_BZ[:,0], MAT_irr_BZ[:,1], MAT_irr_BZ[:,2], c="r", marker="x", label="irr. BZ")
 #ax.scatter(MAT_BZ_full[:,0], MAT_BZ_full[:,1], MAT_BZ_full[:,2], c="k", marker=".", label="full BZ")
 ax.scatter(MAT_KPATCH[:,0], MAT_KPATCH[:,1], MAT_KPATCH[:,2], c="g", marker="o", label="full BZ")
 ax.set_xlabel("x-axis")
