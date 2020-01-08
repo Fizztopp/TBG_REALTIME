@@ -65,67 +65,29 @@ file_BANDS = open('PROPAGATION/DATA/ASD_t.dat','r')
 ASD = np.loadtxt(file_BANDS)
 file_BANDS.close()
 
-file_BANDS = open('PROPAGATION/DATA/C_tL20.dat','r')
+file_BANDS = open('PROPAGATION/DATA/C_tL0.dat','r')
 CL = np.loadtxt(file_BANDS)
 file_BANDS.close()
 
-file_BANDS = open('PROPAGATION/DATA/C_tR20.dat','r')
+file_BANDS = open('PROPAGATION/DATA/C_tR0.dat','r')
 CR = np.loadtxt(file_BANDS)
 file_BANDS.close()
 
-file_BANDS = open('PROPAGATION/DATA/C_tL0.dat','r')
+file_BANDS = open('PROPAGATION/DATA/C_tL1.dat','r')
 CL1 = np.loadtxt(file_BANDS)
 file_BANDS.close()
 
-file_BANDS = open('PROPAGATION/DATA/C_tR0.dat','r')
+file_BANDS = open('PROPAGATION/DATA/C_tR1.dat','r')
 CR1 = np.loadtxt(file_BANDS)
 file_BANDS.close()
 
-# =============================================================================
-# file_BANDS = open('PROPAGATION/DATA/C_tL2.dat','r')
-# CL2 = np.loadtxt(file_BANDS)
-# file_BANDS.close()
-# 
-# file_BANDS = open('PROPAGATION/DATA/C_tR2.dat','r')
-# CR2 = np.loadtxt(file_BANDS)
-# file_BANDS.close()
-# =============================================================================
-
-
-file_BANDS = open('PROPAGATION/DATA/E_tL0.dat','r')
-EL = np.loadtxt(file_BANDS)
-file_BANDS.close()
-
-file_BANDS = open('PROPAGATION/DATA/E_tR0.dat','r')
-ER = np.loadtxt(file_BANDS)
-file_BANDS.close()
-
-file_BANDS = open('PROPAGATION/DATA/nv_tR0.dat','r')
-NvR = np.loadtxt(file_BANDS)
-file_BANDS.close()
-
-file_BANDS = open('PROPAGATION/DATA/nc_tR0.dat','r')
-NcR = np.loadtxt(file_BANDS)
-file_BANDS.close()
-
-file_BANDS = open('PROPAGATION/DATA/nv_tL0.dat','r')
-NvL = np.loadtxt(file_BANDS)
-file_BANDS.close()
-
-file_BANDS = open('PROPAGATION/DATA/nc_tL0.dat','r')
-NcL = np.loadtxt(file_BANDS)
-file_BANDS.close()
-
-file_BANDS = open('PROPAGATION/DATA/n_tR0.dat','r')
-NtR = np.loadtxt(file_BANDS)
-file_BANDS.close()
 
 file_BANDS.close()
 
 starttime = 0.0
 endtime = 759.8
 timesteps = 10000
-T_PEAK = 500
+T_PEAK = 300
 
 reduce = 10
 time = np.linspace(0,endtime,int(timesteps/reduce))*tc
@@ -163,30 +125,6 @@ ax1.text(0.015, 0.95, r'(a)', fontsize=18, horizontalalignment='left', verticala
 ax1.get_yaxis().set_label_coords(-0.14,0.5)
 ax1.set_xticklabels([])
 plt.legend(loc="center right")
-
-# =============================================================================
-# ax2 = fig1.add_subplot(gs1[5,0])
-# ax2.plot(time, EL-EL[0], linewidth=2.0, linestyle="-", color=BLUE, label="$E_L(t)-E_L(0)$")
-# ax2.plot(time, ER-ER[0], linewidth=2.0, linestyle="-", color=RED, label="$E_R(t)-E_R(0)$")
-# #ax2.plot(time, E0L-E0L[0], linewidth=2.0, linestyle="--", color=GREEN, label="$E0_L(t)-E0_L(0)$")
-# #ax2.fill(time,abs(np.amax(E0L)-E0L[0])*gauss(100.*tc, 500*tc, time), color="gainsboro", facecolor='gainsboro',label=r"$\mathrm{pump}$",alpha=0.5)
-# ax2.set_ylabel("$\mathrm{\Delta E}$ ($\mathrm{eV}$)")
-# ax2.set_ylim(-1e-4, 1e-4)
-# plt.legend(loc="upper right")
-# =============================================================================
-
-# =============================================================================
-# ax3 = fig1.add_subplot(gs1[2,0])
-# ax3.set_title("No $\mathrm{SD-Field}$ $\mathrm{only}$ ")
-# #ax.plot(E, linewidth=2.0, color=RED, label="$E(t)$")
-# #ax.plot(time1, np.diff(E-E[0])/np.diff(time), color=BLUE, linewidth=2.0, label="$dE/dt(t)$")
-# #ax2.plot(time, C0L[:,0]-C0R[:,0], linewidth=2.0, color=BLUE, label=r"$J_x(L-R)$")
-# ax3.plot(time, C0x_AV, linewidth=2.0, color=BLUE, label=r"$J0_x(L-R)_{AV}$")
-# ax3.plot(time, C0y_AV, linewidth=2.0, color=RED, label=r"$J0_y(L-R)_{AV}$")
-# #ax2.set_xlabel("$\mathrm{time}$ ($\mathrm{fs}$)")
-# ax3.set_ylabel("$\mathrm{J}$ ($\mathrm{arb. units}$)")
-# plt.legend(loc="upper right")
-# =============================================================================
 
 
 ax3 = fig1.add_subplot(gs1[1,0])
@@ -238,21 +176,7 @@ ax5.plot(time, [0]*time,  'k:', linewidth=0.5)
 ax5.text(0.015, 0.95, r'(d)', fontsize=18, horizontalalignment='left', verticalalignment='top', transform=ax5.transAxes)
 plt.legend(loc="upper right")
 
-# =============================================================================
-# ax6 = fig1.add_subplot(gs1[4,0])
-# ax6.set_title("Linear polarized")
-# #ax.plot(E, linewidth=2.0, color=RED, label="$E(t)$")
-# #ax.plot(time1, np.diff(E-E[0])/np.diff(time), color=BLUE, linewidth=2.0, label="$dE/dt(t)$")
-# #ax6.plot(time, NvR+NcR, linewidth=2.0, color=BLUE, label=r"$N_{tot}$")
-# ax6.plot(time, NvR-NvR[0], linewidth=2.0, color=BLUE, label=r"$N_{vR}$")
-# ax6.plot(time, NcR-NcR[0], linewidth=2.0, color=RED, label=r"$N_{cR}$")
-# #ax6.plot(time, NcR-NcR[0], linewidth=2.0, color=BLUE, linestyle="--", label=r"$N_{cR}$")
-# #ax6.plot(time, NvL, linewidth=2.0, color=RED, label=r"$N_{vL}$")
-# #ax6.plot(time, NcL, linewidth=2.0, color=RED, linestyle="--", label=r"$N_{cL}$")
-# #ax3.set_xlabel("$\mathrm{time}$ ($\mathrm{fs}$)")
-# ax6.set_ylabel("$\mathrm{\Delta N_c}$")
-# plt.legend(loc="upper right")
-# =============================================================================
+
 
 
 plt.subplots_adjust(top=0.99, bottom=0.10, left=0.15, right=0.98, hspace=0.20, wspace=0.20)
